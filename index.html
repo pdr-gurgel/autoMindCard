@@ -132,6 +132,9 @@
     "category": "Matemática"
   }
 ]</code></pre>
+                                <button id="ai-help-btn" class="btn btn-info">
+                                    <i class="fas fa-robot"></i> Como gerar com IA
+                                </button>
                             </div>
                             <div class="form-group">
                                 <label for="json-input">Cole seu JSON aqui:</label>
@@ -189,6 +192,109 @@
             <div class="modal-actions">
                 <button id="confirm-yes" class="btn btn-danger">Sim</button>
                 <button id="confirm-no" class="btn btn-secondary">Não</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Ajuda IA -->
+    <div id="ai-help-modal" class="modal">
+        <div class="modal-content ai-help-modal">
+            <div class="modal-header">
+                <h3><i class="fas fa-robot"></i> Gerar Flashcards com IA</h3>
+                <button id="close-ai-help" class="close-btn">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="help-section">
+                    <h4>📋 Como Funciona</h4>
+                    <p>Use qualquer IA (ChatGPT, Claude, Gemini, etc.) para gerar flashcards automaticamente:</p>
+
+                    <div class="steps">
+                        <div class="step">
+                            <span class="step-number">1</span>
+                            <div class="step-content">
+                                <h5>Acesse uma IA</h5>
+                                <p>Use ChatGPT, Claude, Gemini ou qualquer outra IA</p>
+                            </div>
+                        </div>
+
+                        <div class="step">
+                            <span class="step-number">2</span>
+                            <div class="step-content">
+                                <h5>Use o prompt abaixo</h5>
+                                <p>Personalize os campos e copie o prompt gerado</p>
+                            </div>
+                        </div>
+
+                        <div class="step">
+                            <span class="step-number">3</span>
+                            <div class="step-content">
+                                <h5>Cole o resultado</h5>
+                                <p>Cole o JSON gerado pela IA no campo de importação</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="help-section">
+                    <h4>🎯 Personalizar Prompt</h4>
+                    <div class="prompt-builder">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="prompt-topic">Tópico:</label>
+                                <input type="text" id="prompt-topic"
+                                    placeholder="Ex: História do Brasil, Matemática Básica..."
+                                    value="História do Brasil">
+                            </div>
+                            <div class="form-group">
+                                <label for="prompt-count">Quantidade:</label>
+                                <select id="prompt-count">
+                                    <option value="5">5 flashcards</option>
+                                    <option value="8">8 flashcards</option>
+                                    <option value="10" selected>10 flashcards</option>
+                                    <option value="12">12 flashcards</option>
+                                    <option value="15">15 flashcards</option>
+                                    <option value="20">20 flashcards</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="prompt-category">Categoria:</label>
+                                <input type="text" id="prompt-category" placeholder="Ex: História, Matemática..."
+                                    value="História">
+                            </div>
+                            <div class="form-group">
+                                <label for="prompt-difficulty">Dificuldade:</label>
+                                <select id="prompt-difficulty">
+                                    <option value="básico">Básico</option>
+                                    <option value="intermediário" selected>Intermediário</option>
+                                    <option value="avançado">Avançado</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="prompt-instructions">Instruções Específicas:</label>
+                            <textarea id="prompt-instructions"
+                                placeholder="Ex: Foque em datas importantes, Inclua fórmulas, Use exemplos práticos..."
+                                rows="3">Foque em datas importantes, eventos históricos e personagens principais.</textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="help-section">
+                    <h4>📝 Prompt Gerado</h4>
+                    <div class="generated-prompt">
+                        <textarea id="final-prompt" readonly rows="8"
+                            placeholder="O prompt será gerado automaticamente..."></textarea>
+                        <button id="copy-prompt" class="btn btn-primary">
+                            <i class="fas fa-copy"></i> Copiar Prompt
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

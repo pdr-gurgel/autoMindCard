@@ -138,6 +138,51 @@ class FlashcardsApp {
                 this.hideConfirmModal();
             }
         });
+
+        // Modal de ajuda IA
+        document.getElementById('ai-help-btn').addEventListener('click', () => {
+            this.showAIHelpModal();
+        });
+
+        document.getElementById('close-ai-help').addEventListener('click', () => {
+            this.hideAIHelpModal();
+        });
+
+        document.getElementById('close-ai-help-footer').addEventListener('click', () => {
+            this.hideAIHelpModal();
+        });
+
+        document.getElementById('copy-prompt').addEventListener('click', () => {
+            this.copyGeneratedPrompt();
+        });
+
+        // Event listeners para geração dinâmica do prompt
+        document.getElementById('prompt-topic').addEventListener('input', () => {
+            this.updateGeneratedPrompt();
+        });
+
+        document.getElementById('prompt-count').addEventListener('change', () => {
+            this.updateGeneratedPrompt();
+        });
+
+        document.getElementById('prompt-category').addEventListener('input', () => {
+            this.updateGeneratedPrompt();
+        });
+
+        document.getElementById('prompt-difficulty').addEventListener('change', () => {
+            this.updateGeneratedPrompt();
+        });
+
+        document.getElementById('prompt-instructions').addEventListener('input', () => {
+            this.updateGeneratedPrompt();
+        });
+
+        // Fechar modal de ajuda ao clicar fora
+        document.getElementById('ai-help-modal').addEventListener('click', (e) => {
+            if (e.target.id === 'ai-help-modal') {
+                this.hideAIHelpModal();
+            }
+        });
     }
 
     // Alternar tema
@@ -554,6 +599,74 @@ class FlashcardsApp {
         setTimeout(() => {
             toast.classList.remove('show');
         }, 3000);
+    }
+
+    // Mostrar modal de ajuda IA
+    showAIHelpModal() {
+        document.getElementById('ai-help-modal').style.display = 'block';
+        this.updateGeneratedPrompt(); // Gerar prompt inicial
+    }
+
+    // Esconder modal de ajuda IA
+    hideAIHelpModal() {
+        document.getElementById('ai-help-modal').style.display = 'none';
+    }
+
+    // Atualizar prompt gerado
+    updateGeneratedPrompt() {
+        const prompt = this.generatePrompt();
+        document.getElementById('final-prompt').value = prompt;
+    }
+
+    // Gerar prompt
+    generatePrompt() {
+        const topic = document.getElementById('prompt-topic').value || 'Tópico';
+        const count = document.getElementById('prompt-count').value || '10';
+        const category = document.getElementById('prompt-category').value || 'Categoria';
+        const difficulty = document.getElementById('prompt-difficulty').value || 'intermediário';
+        const instructions = document.getElementById('prompt-instructions').value || '';
+
+        let prompt = `Gere ${count} flashcards educacionais sobre "${topic}" no formato JSON. `;
+
+        if (instructions) {
+            prompt += `${instructions} `;
+        }
+
+        prompt += `Nível de dificuldade: ${difficulty}. Responda APENAS com um JSON válido no formato:
+
+[
+  {
+    "question": "Pergunta aqui",
+    "answer": "Resposta aqui",
+    "category": "${category}"
+  }, 
+  {
+    "question": "Pergunta aqui",
+    "answer": "Resposta aqui",
+    "category": "${category}"
+  }
+]
+
+Certifique-se de que o JSON seja válido e bem formatado.`;
+
+        return prompt;
+    }
+
+    // Copiar prompt gerado
+    copyGeneratedPrompt() {
+        const prompt = this.generatePrompt();
+        navigator.clipboard.writeText(prompt).then(() => {
+            this.showToast('Prompt copiado para a área de transferência!', 'success');
+        }).catch(() => {
+            // Fallback para navegadores que não suportam clipboard API
+            const textArea = document.createElement('textarea');
+            textArea.value = prompt;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+            this.showToast('Prompt copiado para a área de transferência!', 'success');
+        });
     }
 }
 
