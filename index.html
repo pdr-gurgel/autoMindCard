@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flashcards App</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <div class="header-top">
+                <h1><i class="fas fa-brain"></i> Flashcards App</h1>
+                <button id="theme-toggle" class="theme-btn" title="Alternar tema">
+                    <i class="fas fa-sun"></i>
+                </button>
+            </div>
+            <nav>
+                <button class="nav-btn active" data-tab="study">
+                    <i class="fas fa-graduation-cap"></i> Estudar
+                </button>
+                <button class="nav-btn" data-tab="add">
+                    <i class="fas fa-plus"></i> Adicionar
+                </button>
+                <button class="nav-btn" data-tab="manage">
+                    <i class="fas fa-cog"></i> Gerenciar
+                </button>
+            </nav>
+        </header>
+
+        <main>
+            <!-- Seção de Estudo -->
+            <section id="study" class="tab-content active">
+                <div class="study-container">
+                    <div class="stats">
+                        <span id="progress">0 / 0</span>
+                        <span id="score">Acertos: 0</span>
+                        <span id="correct-rate">Taxa: 0%</span>
+                    </div>
+
+                    <div class="flashcard" id="current-card">
+                        <div class="card-inner">
+                            <div class="card-front">
+                                <h3>Pergunta</h3>
+                                <p id="question-text">Nenhum flashcard disponível</p>
+                            </div>
+                            <div class="card-back">
+                                <h3>Resposta</h3>
+                                <p id="answer-text">Adicione flashcards para começar</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-controls">
+                        <button id="flip-btn" class="btn btn-primary">
+                            <i class="fas fa-sync-alt"></i> Virar Card
+                        </button>
+                        <div class="difficulty-buttons">
+                            <button class="btn btn-easy" data-difficulty="easy">
+                                <i class="fas fa-check"></i> Fácil
+                            </button>
+                            <button class="btn btn-medium" data-difficulty="medium">
+                                <i class="fas fa-minus"></i> Médio
+                            </button>
+                            <button class="btn btn-difficult" data-difficulty="hard">
+                                <i class="fas fa-times"></i> Difícil
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="study-options">
+                        <button id="shuffle-btn" class="btn btn-secondary">
+                            <i class="fas fa-random"></i> Embaralhar
+                        </button>
+                        <button id="reset-btn" class="btn btn-secondary">
+                            <i class="fas fa-redo"></i> Reiniciar
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Seção de Adicionar -->
+            <section id="add" class="tab-content">
+                <div class="add-container">
+                    <div class="add-methods">
+                        <div class="method-tabs">
+                            <button class="method-btn active" data-method="single">
+                                <i class="fas fa-plus"></i> Card Individual
+                            </button>
+                            <button class="method-btn" data-method="json">
+                                <i class="fas fa-code"></i> Importar JSON
+                            </button>
+                        </div>
+
+                        <!-- Adicionar Card Individual -->
+                        <div id="single-add" class="method-content active">
+                            <form id="single-form">
+                                <div class="form-group">
+                                    <label for="question">Pergunta:</label>
+                                    <textarea id="question" required placeholder="Digite a pergunta..."></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="answer">Resposta:</label>
+                                    <textarea id="answer" required placeholder="Digite a resposta..."></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="category">Categoria (opcional):</label>
+                                    <input type="text" id="category" placeholder="Ex: Matemática, História...">
+                                </div>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-save"></i> Adicionar Flashcard
+                                </button>
+                            </form>
+                        </div>
+
+                        <!-- Importar JSON -->
+                        <div id="json-add" class="method-content">
+                            <div class="json-example">
+                                <h4>Formato do JSON:</h4>
+                                <pre><code>[
+  {
+    "question": "Qual é a capital do Brasil?",
+    "answer": "Brasília",
+    "category": "Geografia"
+  },
+  {
+    "question": "2 + 2 = ?",
+    "answer": "4",
+    "category": "Matemática"
+  }
+]</code></pre>
+                            </div>
+                            <div class="form-group">
+                                <label for="json-input">Cole seu JSON aqui:</label>
+                                <textarea id="json-input" placeholder="Cole o JSON dos flashcards..."></textarea>
+                            </div>
+                            <button id="import-json" class="btn btn-primary">
+                                <i class="fas fa-download"></i> Importar JSON
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Seção de Gerenciar -->
+            <section id="manage" class="tab-content">
+                <div class="manage-container">
+                    <div class="manage-header">
+                        <h3>Gerenciar Flashcards</h3>
+                        <div class="manage-actions">
+                            <button id="export-json" class="btn btn-secondary">
+                                <i class="fas fa-upload"></i> Exportar JSON
+                            </button>
+                            <button id="clear-all" class="btn btn-danger">
+                                <i class="fas fa-trash"></i> Limpar Todos
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="filters">
+                        <select id="category-filter">
+                            <option value="">Todas as categorias</option>
+                        </select>
+                        <select id="difficulty-filter">
+                            <option value="">Todas as dificuldades</option>
+                            <option value="easy">Fácil</option>
+                            <option value="medium">Médio</option>
+                            <option value="hard">Difícil</option>
+                        </select>
+                        <input type="text" id="search-cards" placeholder="Buscar flashcards...">
+                    </div>
+
+                    <div class="cards-list" id="cards-list">
+                        <!-- Cards serão inseridos aqui dinamicamente -->
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modal de Confirmação -->
+    <div id="confirm-modal" class="modal">
+        <div class="modal-content">
+            <h3>Confirmar Ação</h3>
+            <p id="confirm-message">Tem certeza que deseja realizar esta ação?</p>
+            <div class="modal-actions">
+                <button id="confirm-yes" class="btn btn-danger">Sim</button>
+                <button id="confirm-no" class="btn btn-secondary">Não</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast de Notificação -->
+    <div id="toast" class="toast"></div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
